@@ -1,0 +1,27 @@
+# [START functions_ci_cd_cloud_build_nodejs]
+steps:
+  - name: "gcr.io/cloud-builders/npm"
+    args: ["install"]
+    dir: "functions/autodeploy"
+  - name: "gcr.io/cloud-builders/npm"
+    args: ["test"]
+    dir: "functions/autodeploy"
+  - name: "gcr.io/cloud-builders/npm"
+    args: ["run", "build"]
+  - name: gcr.io/cloud-builders/gsutil
+    args: ["cp", "dist/function.zip", "gs://${_BUCKET}/function$COMMIT_SHA.zip"]
+  - name: gcr.io/cloud-builders/gcloud
+    args:
+      [
+        "functions",
+        "deploy",
+        "example-hello-world-cloud-function-nodejs",
+        "--source=gs://${_BUCKET}/function$COMMIT_SHA.zip",
+        "--runtime=nodejs8",
+        "--trigger-http",
+        "--entry-point=helloHttp",
+        "--env-vars-file=production.env.yaml",
+      ]
+substitutions:
+  _BUCKET: example-hangouts-chat-bot-cloud-function-nodejs # default value
+# [END functions_ci_cd_cloud_build_nodejs]
