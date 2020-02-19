@@ -23,5 +23,5 @@ steps:
         "--env-vars-file=production.env.yaml",
       ]
 substitutions:
-  _BUCKET: example-hangouts-chat-bot-cloud-function-nodejs # default value
+  _BUCKET: example-hello-world-cloud-function-nodejs # default value
 # [END functions_ci_cd_cloud_build_nodejs]
