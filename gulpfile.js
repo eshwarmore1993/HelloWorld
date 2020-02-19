@@ -28,21 +28,21 @@ const cleanOutput = () => src(['dist/'], { read: false, allowEmpty: true }).
 const preparePackages = () => src(['./package.json']).
 	pipe(dest('dist/'));
 
-const lintCode = () => src(['src/*.js']).
+const lintCode = () => src(['*.js']).
 	pipe(eslint({ configFile: '.eslintrc.json' })).
 	pipe(eslint.format());
 
-const beautifyCode = () => src(['src/*.js']).
+const beautifyCode = () => src(['*.js']).
 	pipe(beautify({
 		indent_size: 2,
 		preserve_newlines: false,
 	})).
 	pipe(size()).
-	pipe(dest('dist/src/'));
+	pipe(dest('dist/'));
 
 const copyStatic = () => src(['src/**/*.html']).
 	pipe(size()).
-	pipe(dest('dist/src/'));
+	pipe(dest('dist/'));
 
 const createZip = () => src(['dist/**']).
 	pipe(zip('function.zip')).
